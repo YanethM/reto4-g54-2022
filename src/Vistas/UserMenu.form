@@ -119,8 +119,11 @@
                           </Group>
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnAddEmpleado" min="-2" max="-2" attributes="0"/>
                               <Component id="jScrollPane2" min="-2" pref="165" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="btnAddEmpleado" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel7" min="-2" pref="141" max="-2" attributes="0"/>
@@ -559,6 +562,7 @@
                           </Properties>
                           <Events>
                             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblEmpleadosMouseClicked"/>
+                            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblEmpleadosMouseEntered"/>
                           </Events>
                         </Component>
                       </SubComponents>

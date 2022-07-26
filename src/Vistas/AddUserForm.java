@@ -221,6 +221,7 @@ public class AddUserForm extends javax.swing.JDialog {
                     System.out.println(queryNuevoEmpleado);
                     try {
                         st.executeUpdate(queryNuevoEmpleado);
+                        this.dispose();
                         JOptionPane.showMessageDialog(this, "Registro éxitoso");
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(this, "No se pudo registrar el nuevo empleado.", "Empleados", JOptionPane.ERROR_MESSAGE);
@@ -229,7 +230,6 @@ public class AddUserForm extends javax.swing.JDialog {
             } catch (SQLException e) {
                 System.out.println(e);
             }
-            this.dispose();
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
 
