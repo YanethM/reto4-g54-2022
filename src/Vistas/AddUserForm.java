@@ -14,7 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class AddUserForm extends javax.swing.JDialog {
-
+    ControllerSucursalPuestoTrabajo controller;
     ComboBoxModel modeloEnumTipoDocumento;
     Conexion con = new Conexion();
     Connection cn;
@@ -28,18 +28,7 @@ public class AddUserForm extends javax.swing.JDialog {
         modeloEnumTipoDocumento = new DefaultComboBoxModel(TipoDocumentoEnum.values());
         initComponents();
         this.setLocationRelativeTo(parent);
-        cbSucursal = new CbSucursal();
-        llenarComboboxSucursales();
-        mListaSucursales = new ArrayList();
-    }
-
-    public void llenarComboboxSucursales() {
-        mListaSucursales = cbSucursal.getListaSucursales();
-        Iterator iterator = mListaSucursales.iterator();
-        while (iterator.hasNext()) {
-            Sucursal sucursal = (Sucursal) iterator.next();
-            cbSucursales.addItem(sucursal);
-        }
+        controller = new ControllerSucursalPuestoTrabajo(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -63,6 +52,8 @@ public class AddUserForm extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         cbSucursales = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        cbPuestoTrabajo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -102,6 +93,8 @@ public class AddUserForm extends javax.swing.JDialog {
             }
         });
 
+        jLabel9.setText("Puesto de trabajo");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,14 +106,20 @@ public class AddUserForm extends javax.swing.JDialog {
                         .addGap(171, 171, 171)
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
+                        .addGap(172, 172, 172)
+                        .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jLabel7)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel8))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtName)
@@ -128,13 +127,9 @@ public class AddUserForm extends javax.swing.JDialog {
                             .addComponent(txtLastname, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbDocumentType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
-                            .addComponent(cbSucursales, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(201, 201, 201)
-                        .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(144, Short.MAX_VALUE))
+                            .addComponent(cbSucursales, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbPuestoTrabajo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,11 +163,15 @@ public class AddUserForm extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(cbSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(cbPuestoTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(btnConfirm))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(43, 43, 43))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -188,8 +187,8 @@ public class AddUserForm extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -202,7 +201,8 @@ public class AddUserForm extends javax.swing.JDialog {
         String document = txtDocument.getText();
         String email = txtEmail.getText();
         String nombreSucursal = cbSucursales.getSelectedItem().toString();
-        String queryIdSucursal = "SELECT idSucursal FROM `sucursal`WHERE nombreSucursal = '" + nombreSucursal + "';";
+        String puestoTrabajo = cbPuestoTrabajo.getSelectedItem().toString();
+        String queryIdSucursal = "SELECT idSucursal, idPuestoTrabajo FROM sucursal INNER JOIN puestotrabajo ON (sucursal.idSucursal = puestotrabajo.FK_idSucursal) WHERE nombreSucursal = '" + nombreSucursal +"'AND nombrePuestoTrabajo = '"+puestoTrabajo+"';";
         System.out.println(queryIdSucursal);
 
         if (name.isEmpty() || lastname.isEmpty() || document.isEmpty() || email.isEmpty()) {
@@ -214,10 +214,12 @@ public class AddUserForm extends javax.swing.JDialog {
                 rs = st.executeQuery(queryIdSucursal);
                 while (rs.next()) {
                     int idSucursal = rs.getInt("idSucursal");
+                    int idPuestoTrabajo = rs.getInt("idPuestoTrabajo");
                     String queryNuevoEmpleado
-                            = "INSERT INTO `empleado`(`nombreEmp`, `apellidos`, `tipoDocumento`, `documento`, `correo`,`FK_idSucursal`) VALUES ('"
+                            = "INSERT INTO `empleado`(`nombreEmp`, `apellidos`, `tipoDocumento`, `documento`, `correo`,`FK_idSucursal`, FK_idPuestoTrabajo) VALUES ('"
                             + name + "','" + lastname + "','" + documentType + "','"
-                            + document + "','" + email + "'," + idSucursal + ")";
+                            + document + "','" + email + "'," + idSucursal + ""
+                            + "," +idPuestoTrabajo + ")";
                     System.out.println(queryNuevoEmpleado);
                     try {
                         st.executeUpdate(queryNuevoEmpleado);
@@ -234,7 +236,7 @@ public class AddUserForm extends javax.swing.JDialog {
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-  
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -279,7 +281,8 @@ public class AddUserForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirm;
     private javax.swing.JComboBox<String> cbDocumentType;
-    private javax.swing.JComboBox<Sucursal> cbSucursales;
+    public javax.swing.JComboBox<Sucursal> cbPuestoTrabajo;
+    public javax.swing.JComboBox<Sucursal> cbSucursales;
     public javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
@@ -289,6 +292,7 @@ public class AddUserForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     public javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtDocument;
     private javax.swing.JTextField txtEmail;

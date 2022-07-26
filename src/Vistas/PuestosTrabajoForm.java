@@ -1,8 +1,11 @@
 package Vistas;
 
-import Controlador.CbSucursal;
-import Controlador.EnumPuestosTrabajo;
-import Modelo.Sucursal;
+import Controlador.*;
+import Modelo.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.ComboBoxModel;
@@ -10,6 +13,10 @@ import javax.swing.DefaultComboBoxModel;
 
 public class PuestosTrabajoForm extends javax.swing.JDialog {
 
+    Conexion conexion = new Conexion();
+    Connection connection;
+    Statement st;
+    ResultSet rs;
     ComboBoxModel enumPuestosDeT;
     CbSucursal cbSucursal;
     ArrayList mListaSucursales;
@@ -18,6 +25,7 @@ public class PuestosTrabajoForm extends javax.swing.JDialog {
         super(parent, modal);
         enumPuestosDeT = new DefaultComboBoxModel(EnumPuestosTrabajo.values());
         initComponents();
+        this.setLocationRelativeTo(parent);
         cbSucursal = new CbSucursal();
         llenarComboboxSucursales();
         mListaSucursales = new ArrayList();
@@ -58,9 +66,12 @@ public class PuestosTrabajoForm extends javax.swing.JDialog {
 
         jLabel3.setText("Salario");
 
-        txtSalario.setText("jTextField1");
-
         jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
 
@@ -133,6 +144,31 @@ public class PuestosTrabajoForm extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String sucursal = cbSucursalesUI.getSelectedItem().toString();
+        String puestoTrabajo = cbPuestoT.getSelectedItem().toString();
+        String salario = txtSalario.getText();
+        String query = "SELECT idSucursal FROM sucursal WHERE nombreSucursal = '" + sucursal + "';";
+        try {
+            connection = conexion.getConnection();
+            st = connection.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                int idSucursal = rs.getInt("idSucursal");
+                String queryInsert = "INSERT INTO `puestotrabajo`(`nombrePuestoTrabajo`, `salario`, `FK_idSucursal`) VALUES ('" + puestoTrabajo + "','" + salario + "'," + idSucursal + ");";
+                System.out.println(queryInsert);
+                try {
+                    st.executeUpdate(queryInsert);
+                    this.dispose();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

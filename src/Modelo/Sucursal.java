@@ -8,6 +8,11 @@ public class Sucursal {
     public Sucursal() {
     }
 
+    public Sucursal(int idSucursal, String nombreSucursal) {
+        this.idSucursal = idSucursal;
+        this.nombreSucursal = nombreSucursal;
+    }
+
     public int getIdSucursal() {
         return idSucursal;
     }
