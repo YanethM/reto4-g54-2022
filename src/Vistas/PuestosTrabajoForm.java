@@ -18,7 +18,7 @@ public class PuestosTrabajoForm extends javax.swing.JDialog {
     Statement st;
     ResultSet rs;
     ComboBoxModel enumPuestosDeT;
-    CbSucursal cbSucursal;
+    ListarModeloDB cbSucursal;
     ArrayList mListaSucursales;
 
     public PuestosTrabajoForm(java.awt.Frame parent, boolean modal) {
@@ -26,7 +26,7 @@ public class PuestosTrabajoForm extends javax.swing.JDialog {
         enumPuestosDeT = new DefaultComboBoxModel(EnumPuestosTrabajo.values());
         initComponents();
         this.setLocationRelativeTo(parent);
-        cbSucursal = new CbSucursal();
+        cbSucursal = new ListarModeloDB();
         llenarComboboxSucursales();
         mListaSucursales = new ArrayList();
     }

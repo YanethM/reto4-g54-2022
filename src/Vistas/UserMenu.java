@@ -68,12 +68,12 @@ public class UserMenu extends javax.swing.JFrame {
     public void listarEmpleados() {
         String nombre = txtBuscarEmp.getText();
         if (nombre.isEmpty()) {
-            String queryConsulta = "SELECT nombreEmp, apellidos, tipoDocumento, documento, correo, nombreSucursal FROM empleado INNER JOIN sucursal ON idSucursal = FK_idSucursal;";
+            String queryConsulta = "SELECT nombreEmp, apellidos, tipoDocumento, documento, correo, nombreSucursal, nombrePuestoTrabajo FROM empleado INNER JOIN sucursal ON idSucursal = FK_idSucursal INNER JOIN puestoTrabajo ON(FK_idPuestoTrabajo = idPuestoTrabajo);";
             try {
                 connection = conexion.getConnection();
                 st = connection.createStatement();
                 rs = st.executeQuery(queryConsulta);
-                Object[] empleados = new Object[6];
+                Object[] empleados = new Object[7];
                 contenidoTabla = (DefaultTableModel) tblEmpleados.getModel();
                 while (rs.next()) {
                     empleados[0] = rs.getString("nombreEmp");
@@ -82,6 +82,7 @@ public class UserMenu extends javax.swing.JFrame {
                     empleados[3] = rs.getString("documento");
                     empleados[4] = rs.getString("correo");
                     empleados[5] = rs.getString("nombreSucursal");
+                    empleados[6] = rs.getString("nombrePuestoTrabajo");
                     contenidoTabla.addRow(empleados);
                 }
                 tblEmpleados.setModel(contenidoTabla);
@@ -89,12 +90,12 @@ public class UserMenu extends javax.swing.JFrame {
                 System.out.println("Error");
             }
         } else {
-            String query = "SELECT nombreEmp, apellidos, tipoDocumento, documento, correo, nombreSucursal FROM empleado INNER JOIN sucursal WHERE idSucursal = FK_idSucursal AND nombreEmp LIKE '%" + nombre + "%' OR apellidos LIKE '%" + nombre + "%';";
+            String query = "SELECT nombreEmp, apellidos, tipoDocumento, documento, correo, nombreSucursal, nombrePuestoTrabajo FROM empleado INNER JOIN sucursal ON (idSucursal = FK_idSucursal) INNER JOIN puestoTrabajo ON(FK_idPuestoTrabajo = idPuestoTrabajo)WHERE nombreEmp LIKE '%" + nombre + "%' OR apellidos LIKE '%" + nombre + "%';";
             try {
                 connection = conexion.getConnection();
                 st = connection.createStatement();
                 rs = st.executeQuery(query);
-                Object[] empleados = new Object[6];
+                Object[] empleados = new Object[7];
                 contenidoTabla = (DefaultTableModel) tblEmpleados.getModel();
                 while (rs.next()) {
                     empleados[0] = rs.getString("nombreEmp");
@@ -103,6 +104,7 @@ public class UserMenu extends javax.swing.JFrame {
                     empleados[3] = rs.getString("documento");
                     empleados[4] = rs.getString("correo");
                     empleados[5] = rs.getString("nombreSucursal");
+                    empleados[6] = rs.getString("nombrePuestoTrabajo");
                     contenidoTabla.addRow(empleados);
                 }
                 tblEmpleados.setModel(contenidoTabla);
@@ -355,11 +357,11 @@ public class UserMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre(s)", "Apellido(s)", "Tipo documento", "Documento", "Correo", "Sucursal"
+                "Nombre(s)", "Apellido(s)", "Tipo documento", "Documento", "Correo", "Sucursal", "Ocupacion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -529,10 +531,10 @@ public class UserMenu extends javax.swing.JFrame {
         String documento = tblEmpleados.getValueAt(nroFila, 3).toString();
         String correo = tblEmpleados.getValueAt(nroFila, 4).toString();
         String nombreSucursal = tblEmpleados.getValueAt(nroFila, 5).toString();
-
+        String ocupacion = tblEmpleados.getValueAt(nroFila, 6).toString();
         ShowUserForm showUserForm = new ShowUserForm(this, true);
 
-        showUserForm.recibeDatosUserMenu(nombreEmp, apellidos, tipoDocumento, documento, correo, nombreSucursal);
+        showUserForm.recibeDatosUserMenu(nombreEmp, apellidos, tipoDocumento, documento, correo, nombreSucursal, ocupacion);
         showUserForm.setVisible(true);
         borrarDatosTabla();
         listarEmpleados();
